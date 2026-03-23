@@ -1,0 +1,1074 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Abhiram R A — Portfolio</title>
+<link href="https://fonts.googleapis.com/css2?family=Abril+Fatface&family=DM+Mono:ital,wght@0,300;0,400;1,300&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #0f0e0c;
+    --paper: #f5f0e8;
+    --rust: #c0392b;
+    --gold: #d4a017;
+    --slate: #2c3e50;
+    --muted: #8c8070;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'DM Mono', monospace;
+    overflow-x: hidden;
+    cursor: crosshair;
+  }
+
+  /* NOISE TEXTURE */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 9999;
+    opacity: 0.4;
+  }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-left {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 80px 60px;
+    position: relative;
+    z-index: 2;
+  }
+
+  .hero-label {
+    font-size: 11px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--rust);
+    margin-bottom: 24px;
+    opacity: 0;
+    animation: fadeUp 0.8s ease forwards 0.2s;
+  }
+
+  .hero-name {
+    font-family: 'Abril Fatface', serif;
+    font-size: clamp(56px, 7vw, 96px);
+    line-height: 0.95;
+    color: var(--ink);
+    opacity: 0;
+    animation: fadeUp 0.8s ease forwards 0.4s;
+  }
+
+  .hero-name span {
+    color: var(--rust);
+    display: block;
+  }
+
+  .hero-tagline {
+    margin-top: 32px;
+    font-size: 13px;
+    line-height: 2;
+    color: var(--muted);
+    max-width: 340px;
+    opacity: 0;
+    animation: fadeUp 0.8s ease forwards 0.6s;
+  }
+
+  .hero-tags {
+    margin-top: 40px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    opacity: 0;
+    animation: fadeUp 0.8s ease forwards 0.8s;
+  }
+
+  .tag {
+    border: 1px solid var(--ink);
+    padding: 6px 14px;
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    transition: all 0.2s;
+    cursor: default;
+  }
+
+  .tag:hover {
+    background: var(--ink);
+    color: var(--paper);
+  }
+
+  .hero-right {
+    background: var(--ink);
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .hero-art-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4px;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    animation: fadeIn 1.2s ease forwards 1s;
+  }
+
+  .hero-art-cell {
+    overflow: hidden;
+    position: relative;
+  }
+
+  .hero-art-cell img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.6s ease;
+    filter: sepia(0.2) contrast(1.1);
+  }
+
+  .hero-art-cell:hover img {
+    transform: scale(1.05);
+  }
+
+  .hero-art-cell::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: rgba(15,14,12,0.3);
+    transition: opacity 0.3s;
+  }
+
+  .hero-art-cell:hover::after {
+    opacity: 0;
+  }
+
+  /* MARQUEE */
+  .marquee-wrap {
+    background: var(--rust);
+    padding: 14px 0;
+    overflow: hidden;
+    white-space: nowrap;
+  }
+
+  .marquee-inner {
+    display: inline-block;
+    animation: marquee 18s linear infinite;
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--paper);
+  }
+
+  .marquee-inner span {
+    margin: 0 40px;
+    color: var(--gold);
+  }
+
+  /* SECTIONS */
+  section {
+    padding: 100px 60px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .section-header {
+    display: flex;
+    align-items: baseline;
+    gap: 20px;
+    margin-bottom: 60px;
+    border-bottom: 1px solid var(--ink);
+    padding-bottom: 20px;
+  }
+
+  .section-num {
+    font-size: 11px;
+    color: var(--rust);
+    letter-spacing: 2px;
+  }
+
+  .section-title {
+    font-family: 'Abril Fatface', serif;
+    font-size: clamp(32px, 4vw, 52px);
+    line-height: 1;
+  }
+
+  /* ABOUT */
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: start;
+  }
+
+  .about-text p {
+    font-size: 13px;
+    line-height: 2.2;
+    color: var(--slate);
+    margin-bottom: 20px;
+  }
+
+  .about-text strong {
+    color: var(--ink);
+    font-weight: 400;
+    font-style: italic;
+  }
+
+  .edu-card {
+    border: 1px solid var(--ink);
+    padding: 28px;
+    position: relative;
+  }
+
+  .edu-card::before {
+    content: 'EDUCATION';
+    position: absolute;
+    top: -8px;
+    left: 20px;
+    background: var(--paper);
+    font-size: 9px;
+    letter-spacing: 3px;
+    padding: 0 8px;
+    color: var(--rust);
+  }
+
+  .edu-item {
+    margin-bottom: 24px;
+    padding-bottom: 24px;
+    border-bottom: 1px dashed #ccc;
+  }
+
+  .edu-item:last-child {
+    margin-bottom: 0;
+    padding-bottom: 0;
+    border-bottom: none;
+  }
+
+  .edu-school {
+    font-family: 'Playfair Display', serif;
+    font-size: 16px;
+    font-weight: 700;
+    margin-bottom: 4px;
+  }
+
+  .edu-detail {
+    font-size: 11px;
+    color: var(--muted);
+    line-height: 1.8;
+  }
+
+  .edu-year {
+    display: inline-block;
+    background: var(--ink);
+    color: var(--paper);
+    font-size: 10px;
+    padding: 2px 8px;
+    margin-top: 6px;
+    letter-spacing: 1px;
+  }
+
+  /* MARKS TABLE */
+  .marks-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: var(--ink);
+    border: 1px solid var(--ink);
+    margin-top: 20px;
+  }
+
+  .marks-cell {
+    background: var(--paper);
+    padding: 16px;
+    text-align: center;
+  }
+
+  .marks-cell.header {
+    background: var(--ink);
+    color: var(--paper);
+    font-size: 9px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+
+  .marks-subject {
+    font-size: 10px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 4px;
+  }
+
+  .marks-score {
+    font-family: 'Abril Fatface', serif;
+    font-size: 28px;
+    color: var(--ink);
+  }
+
+  .marks-score.high { color: var(--rust); }
+  .marks-score.low { color: #aaa; }
+
+  /* ART GALLERY */
+  .gallery-masonry {
+    columns: 3;
+    column-gap: 16px;
+  }
+
+  .gallery-item {
+    break-inside: avoid;
+    margin-bottom: 16px;
+    overflow: hidden;
+    position: relative;
+    cursor: zoom-in;
+  }
+
+  .gallery-item img {
+    width: 100%;
+    display: block;
+    transition: transform 0.5s ease;
+    filter: contrast(1.05);
+  }
+
+  .gallery-item:hover img {
+    transform: scale(1.03);
+  }
+
+  .gallery-item .overlay {
+    position: absolute;
+    inset: 0;
+    background: var(--rust);
+    mix-blend-mode: multiply;
+    opacity: 0;
+    transition: opacity 0.3s;
+    display: flex;
+    align-items: flex-end;
+    padding: 20px;
+  }
+
+  .gallery-item:hover .overlay {
+    opacity: 0.7;
+  }
+
+  .overlay-text {
+    font-size: 10px;
+    color: var(--paper);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+
+  /* EXPERIENCE */
+  .exp-list {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2px;
+    background: var(--ink);
+    border: 1px solid var(--ink);
+  }
+
+  .exp-item {
+    background: var(--paper);
+    padding: 40px;
+    position: relative;
+    transition: background 0.3s;
+  }
+
+  .exp-item:hover {
+    background: var(--ink);
+    color: var(--paper);
+  }
+
+  .exp-item:hover .exp-role { color: var(--gold); }
+  .exp-item:hover .exp-desc { color: #aaa; }
+
+  .exp-num {
+    font-size: 48px;
+    font-family: 'Abril Fatface', serif;
+    color: var(--paper);
+    position: absolute;
+    top: 20px;
+    right: 28px;
+    line-height: 1;
+    transition: color 0.3s;
+  }
+
+  .exp-item:hover .exp-num { color: rgba(255,255,255,0.1); }
+
+  .exp-role {
+    font-family: 'Playfair Display', serif;
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 8px;
+    line-height: 1.3;
+    color: var(--ink);
+    transition: color 0.3s;
+  }
+
+  .exp-where {
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--rust);
+    margin-bottom: 12px;
+  }
+
+  .exp-desc {
+    font-size: 12px;
+    line-height: 1.9;
+    color: var(--muted);
+    transition: color 0.3s;
+  }
+
+  /* PROJECTS */
+  .project-card {
+    border: 1px solid var(--ink);
+    padding: 50px;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 40px;
+    align-items: center;
+    transition: background 0.3s;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .project-card::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 4px;
+    background: var(--rust);
+  }
+
+  .project-card:hover {
+    background: var(--ink);
+    color: var(--paper);
+  }
+
+  .project-card:hover .project-link {
+    border-color: var(--paper);
+    color: var(--paper);
+  }
+
+  .project-label {
+    font-size: 10px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--rust);
+    margin-bottom: 12px;
+  }
+
+  .project-name {
+    font-family: 'Abril Fatface', serif;
+    font-size: 32px;
+    margin-bottom: 16px;
+    line-height: 1.1;
+  }
+
+  .project-desc {
+    font-size: 12px;
+    line-height: 2;
+    color: var(--muted);
+    max-width: 600px;
+  }
+
+  .project-card:hover .project-desc { color: #aaa; }
+
+  .project-link {
+    display: inline-block;
+    border: 1px solid var(--ink);
+    padding: 14px 28px;
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    text-decoration: none;
+    color: var(--ink);
+    transition: all 0.3s;
+    white-space: nowrap;
+  }
+
+  .project-link:hover {
+    background: var(--rust);
+    border-color: var(--rust);
+    color: var(--paper);
+  }
+
+  /* CONTACT */
+  .contact-section {
+    background: var(--ink);
+    color: var(--paper);
+    padding: 100px 60px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .contact-section::before {
+    content: 'ABHIRAM';
+    position: absolute;
+    font-family: 'Abril Fatface', serif;
+    font-size: 200px;
+    color: rgba(255,255,255,0.03);
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    white-space: nowrap;
+    pointer-events: none;
+  }
+
+  .contact-title {
+    font-family: 'Abril Fatface', serif;
+    font-size: clamp(40px, 6vw, 80px);
+    line-height: 1;
+    margin-bottom: 24px;
+  }
+
+  .contact-title em {
+    color: var(--gold);
+    font-style: normal;
+  }
+
+  .contact-sub {
+    font-size: 12px;
+    color: rgba(255,255,255,0.5);
+    letter-spacing: 2px;
+    margin-bottom: 50px;
+  }
+
+  .contact-links {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .contact-btn {
+    border: 1px solid rgba(255,255,255,0.3);
+    padding: 16px 40px;
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    text-decoration: none;
+    color: var(--paper);
+    transition: all 0.3s;
+    cursor: pointer;
+    background: none;
+  }
+
+  .contact-btn:hover {
+    background: var(--rust);
+    border-color: var(--rust);
+  }
+
+  .contact-btn.primary {
+    background: var(--rust);
+    border-color: var(--rust);
+  }
+
+  /* FOOTER */
+  footer {
+    background: #080807;
+    color: rgba(255,255,255,0.3);
+    text-align: center;
+    padding: 24px;
+    font-size: 10px;
+    letter-spacing: 2px;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    padding: 20px 60px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    mix-blend-mode: difference;
+  }
+
+  .nav-logo {
+    font-family: 'Abril Fatface', serif;
+    font-size: 20px;
+    color: var(--paper);
+    text-decoration: none;
+    letter-spacing: 2px;
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 32px;
+    list-style: none;
+  }
+
+  .nav-links a {
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--paper);
+    text-decoration: none;
+    transition: opacity 0.2s;
+  }
+
+  .nav-links a:hover { opacity: 0.6; }
+
+  /* LIGHTBOX */
+  .lightbox {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.95);
+    z-index: 1000;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    cursor: zoom-out;
+  }
+
+  .lightbox.active { display: flex; }
+
+  .lightbox img {
+    max-width: 90vw;
+    max-height: 90vh;
+    object-fit: contain;
+  }
+
+  .lightbox-close {
+    position: absolute;
+    top: 30px;
+    right: 40px;
+    color: white;
+    font-size: 30px;
+    cursor: pointer;
+    font-family: 'DM Mono', monospace;
+  }
+
+  /* ANIMATIONS */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  @keyframes marquee {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+
+  /* SCROLL REVEAL */
+  .reveal {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+  .reveal.visible {
+    opacity: 1;
+    transform: none;
+  }
+
+  /* RESPONSIVE */
+  @media (max-width: 900px) {
+    nav { padding: 20px 24px; }
+    nav .nav-links { display: none; }
+    .hero { grid-template-columns: 1fr; }
+    .hero-right { height: 50vw; }
+    .hero-left { padding: 100px 24px 60px; }
+    section { padding: 60px 24px; }
+    .about-grid { grid-template-columns: 1fr; gap: 40px; }
+    .gallery-masonry { columns: 2; }
+    .exp-list { grid-template-columns: 1fr; }
+    .project-card { grid-template-columns: 1fr; }
+    .contact-section { padding: 80px 24px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-logo">A.R.A</a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#art">Art</a></li>
+    <li><a href="#experience">Work</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero" style="padding:0; max-width:100%; margin:0;">
+  <div class="hero-left">
+    <p class="hero-label">Portfolio — 2025</p>
+    <h1 class="hero-name">Abhiram<span>R A</span></h1>
+    <p class="hero-tagline">Artist. Event organizer. Web builder. A student who makes things with his hands — pen on paper, brush on screen, code in browser.</p>
+    <div class="hero-tags">
+      <span class="tag">Visual Art</span>
+      <span class="tag">Digital Art</span>
+      <span class="tag">Event Management</span>
+      <span class="tag">Web Dev</span>
+      <span class="tag">Bengaluru</span>
+    </div>
+  </div>
+  <div class="hero-right">
+    <div class="hero-art-grid">
+      <div class="hero-art-cell">
+        <img src="https://abhiarun2007-dotcom.github.io/the-story-flow-/" alt="art" onerror="this.style.background='#2c3e50'; this.style.display='block'; this.style.minHeight='200px'">
+      </div>
+    </div>
+    <!-- Collage of art using CSS backgrounds referencing the spirit of the artworks -->
+    <div style="position:absolute;inset:0;display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;gap:3px;">
+      <div style="overflow:hidden;background:#1a1a2e;display:flex;align-items:center;justify-content:center;font-family:'Abril Fatface',serif;font-size:80px;color:rgba(192,57,43,0.3);">✦</div>
+      <div style="overflow:hidden;background:#16213e;display:flex;align-items:center;justify-content:center;font-family:'Abril Fatface',serif;font-size:60px;color:rgba(212,160,23,0.3);">⬡</div>
+      <div style="overflow:hidden;background:#0f3460;display:flex;align-items:center;justify-content:center;font-family:'Abril Fatface',serif;font-size:70px;color:rgba(245,240,232,0.15);">◈</div>
+      <div style="overflow:hidden;background:#533483;display:flex;align-items:center;justify-content:center;font-family:'Abril Fatface',serif;font-size:90px;color:rgba(192,57,43,0.25);">⊕</div>
+    </div>
+    <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;z-index:5;">
+      <p style="color:rgba(255,255,255,0.15);font-size:10px;letter-spacing:3px;text-transform:uppercase;transform:rotate(-90deg);white-space:nowrap;">Art · Design · Expression</p>
+    </div>
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee-wrap">
+  <div class="marquee-inner">
+    ARTIST <span>✦</span> EVENT ORGANIZER <span>✦</span> WEB DEVELOPER <span>✦</span> PENWORK <span>✦</span> DIGITAL ART <span>✦</span> WATERCOLOR <span>✦</span> BALDWIN'S <span>✦</span> JAIN COLLEGE <span>✦</span> KALAKRITI 2025 <span>✦</span> BENGALURU <span>✦</span> ARTIST <span>✦</span> EVENT ORGANIZER <span>✦</span> WEB DEVELOPER <span>✦</span> PENWORK <span>✦</span> DIGITAL ART <span>✦</span> WATERCOLOR <span>✦</span> BALDWIN'S <span>✦</span> JAIN COLLEGE <span>✦</span> KALAKRITI 2025 <span>✦</span> BENGALURU <span>✦</span>
+  </div>
+</div>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="section-header reveal">
+    <span class="section-num">01 /</span>
+    <h2 class="section-title">About</h2>
+  </div>
+  <div class="about-grid">
+    <div class="about-text reveal">
+      <p>I'm <strong>Abhiram R A</strong>, a student, artist, and builder from Bengaluru. I studied at <strong>Baldwin Co-Education Extension High School</strong> and now pursue humanities at <strong>Jain College</strong> — where I've gone from being a student to someone who helps run the show.</p>
+      <p>My work spans across mediums: intricate pen work in sketchbooks, vibrant digital paintings on my phone, watercolor experiments, and now — websites. I believe creativity isn't a single lane; it's everything at once.</p>
+      <p>I've coordinated inter-college fests, hosted theater events, organized school sports days, and built web tools — each project a chance to make something that didn't exist before.</p>
+    </div>
+    <div class="reveal">
+      <div class="edu-card">
+        <div class="edu-item">
+          <div class="edu-school">Jain College, Bengaluru</div>
+          <div class="edu-detail">PUC — Humanities Department<br>Student Coordinator, Kalakriti 2025<br>Theater & Events</div>
+          <span class="edu-year">2024 — Present</span>
+        </div>
+        <div class="edu-item">
+          <div class="edu-school">Baldwin Co-Ed Extension High School</div>
+          <div class="edu-detail">ICSE Class X · 2024<br>Unique ID: 8187358</div>
+          <span class="edu-year">Passed 2024</span>
+        </div>
+      </div>
+
+      <div class="marks-grid reveal" style="margin-top: 20px;">
+        <div class="marks-cell header">Subject</div>
+        <div class="marks-cell header">Score</div>
+        <div class="marks-cell header">/ 100</div>
+
+        <div class="marks-cell"><div class="marks-subject">Home Science</div></div>
+        <div class="marks-cell"><div class="marks-score high">91</div></div>
+        <div class="marks-cell"><div style="font-size:9px;color:var(--muted)">Best Subject</div></div>
+
+        <div class="marks-cell"><div class="marks-subject">Kannada</div></div>
+        <div class="marks-cell"><div class="marks-score">80</div></div>
+        <div class="marks-cell"></div>
+
+        <div class="marks-cell"><div class="marks-subject">English</div></div>
+        <div class="marks-cell"><div class="marks-score">79</div></div>
+        <div class="marks-cell"></div>
+
+        <div class="marks-cell"><div class="marks-subject">Hist/Civics</div></div>
+        <div class="marks-cell"><div class="marks-score">62</div></div>
+        <div class="marks-cell"></div>
+
+        <div class="marks-cell"><div class="marks-subject">Science</div></div>
+        <div class="marks-cell"><div class="marks-score">47</div></div>
+        <div class="marks-cell"></div>
+
+        <div class="marks-cell"><div class="marks-subject">Mathematics</div></div>
+        <div class="marks-cell"><div class="marks-score low">39</div></div>
+        <div class="marks-cell"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ART -->
+<div style="background: var(--ink); padding: 2px 0; margin: 0 60px;"></div>
+<section id="art" style="background: var(--paper);">
+  <div class="section-header reveal">
+    <span class="section-num">02 /</span>
+    <h2 class="section-title">Artwork</h2>
+  </div>
+  <p class="reveal" style="font-size:12px;color:var(--muted);margin-bottom:40px;letter-spacing:1px;">PEN · DIGITAL · WATERCOLOR — Click any piece to view</p>
+  
+  <div class="gallery-masonry reveal">
+    <div class="gallery-item" onclick="openLightbox(this)">
+      <img src="data:image/jpeg;base64," data-real="art1" alt="Mandala pen art — pink and purple">
+      <div style="background:var(--rust);padding:60px;display:flex;align-items:center;justify-content:center;">
+        <div style="text-align:center;color:var(--paper)">
+          <div style="font-family:'Abril Fatface',serif;font-size:14px;margin-bottom:4px">Mandala Explosion</div>
+          <div style="font-size:9px;letter-spacing:2px;opacity:0.6">PEN ON PAPER</div>
+        </div>
+      </div>
+      <div class="overlay"><span class="overlay-text">Pen on Paper</span></div>
+    </div>
+
+    <!-- Art cards with colored placeholders representing the actual artworks -->
+    <div class="gallery-item" style="background: #0f0e0c; padding: 80px 40px; display:flex; align-items:center; justify-content:center;" onclick="alert('View original file: Digital art — black and white flower with spiral')">
+      <div style="text-align:center;color:var(--paper)">
+        <div style="font-family:'Abril Fatface',serif;font-size:50px;color:rgba(255,255,255,0.1)">○</div>
+        <div style="font-family:'Abril Fatface',serif;font-size:14px;margin-bottom:4px">Spiral Bloom</div>
+        <div style="font-size:9px;letter-spacing:2px;opacity:0.4">DIGITAL · B&W</div>
+      </div>
+      <div class="overlay"><span class="overlay-text">Digital Art</span></div>
+    </div>
+
+    <div class="gallery-item" style="background: linear-gradient(135deg, #533483 0%, #e94560 100%); padding: 100px 40px; display:flex; align-items:center; justify-content:center;" onclick="alert('View: Character digital art — figure in colorful environment')">
+      <div style="text-align:center;color:var(--paper)">
+        <div style="font-family:'Abril Fatface',serif;font-size:14px;margin-bottom:4px">The Figure</div>
+        <div style="font-size:9px;letter-spacing:2px;opacity:0.6">DIGITAL PAINTING</div>
+      </div>
+      <div class="overlay"><span class="overlay-text">Digital Painting</span></div>
+    </div>
+
+    <div class="gallery-item" style="background: linear-gradient(180deg, #1a0038 0%, #ffd700 100%); padding: 70px 40px; display:flex; align-items:center; justify-content:center;" onclick="alert('View: Rose head digital — abstract figure with rose')">
+      <div style="text-align:center;color:var(--paper)">
+        <div style="font-family:'Abril Fatface',serif;font-size:14px;margin-bottom:4px">Rose Head</div>
+        <div style="font-size:9px;letter-spacing:2px;opacity:0.6">DIGITAL · MIXED</div>
+      </div>
+      <div class="overlay"><span class="overlay-text">Digital Art</span></div>
+    </div>
+
+    <div class="gallery-item" style="background: linear-gradient(135deg, #6a0572 0%, #ff6b35 100%); padding: 90px 40px; display:flex; align-items:center; justify-content:center;" onclick="alert('View: Purple flower with eye center — digital')">
+      <div style="text-align:center;color:var(--paper)">
+        <div style="font-family:'Abril Fatface',serif;font-size:14px;margin-bottom:4px">Eye Flower</div>
+        <div style="font-size:9px;letter-spacing:2px;opacity:0.6">DIGITAL PAINTING</div>
+      </div>
+      <div class="overlay"><span class="overlay-text">Digital</span></div>
+    </div>
+
+    <div class="gallery-item" style="background: #050505; padding: 90px 40px; display:flex; align-items:center; justify-content:center;" onclick="alert('View: Angel figure on black — white linework')">
+      <div style="text-align:center;color:rgba(255,255,255,0.7)">
+        <div style="font-family:'Abril Fatface',serif;font-size:14px;margin-bottom:4px">Angel</div>
+        <div style="font-size:9px;letter-spacing:2px;opacity:0.5;color:rgba(255,255,255,0.4)">DIGITAL · LINEWORK</div>
+      </div>
+      <div class="overlay"><span class="overlay-text">Digital</span></div>
+    </div>
+
+    <div class="gallery-item" style="background: #f5f0e8; border:1px solid #ddd; padding: 80px 40px; display:flex; align-items:center; justify-content:center;" onclick="alert('View: Topographic waves with tiny figure — pen')">
+      <div style="text-align:center;color:var(--ink)">
+        <div style="font-family:'Abril Fatface',serif;font-size:14px;margin-bottom:4px">Lost in Waves</div>
+        <div style="font-size:9px;letter-spacing:2px;color:var(--muted)">PEN · TOPOGRAPHIC</div>
+      </div>
+      <div class="overlay"><span class="overlay-text">Pen on Paper</span></div>
+    </div>
+
+    <div class="gallery-item" style="background: #f5f0e8; border:1px solid #ddd; padding: 60px 40px; display:flex; align-items:center; justify-content:center;" onclick="alert('View: Chinese dragon — detailed pencil work')">
+      <div style="text-align:center;color:var(--ink)">
+        <div style="font-family:'Abril Fatface',serif;font-size:14px;margin-bottom:4px">Dragon</div>
+        <div style="font-size:9px;letter-spacing:2px;color:var(--muted)">PENCIL WORK</div>
+      </div>
+      <div class="overlay"><span class="overlay-text">Pencil</span></div>
+    </div>
+
+    <div class="gallery-item" style="background: #f5f0e8; border:1px solid #ddd; padding: 80px 40px; display:flex; align-items:center; justify-content:center;" onclick="alert('View: Eye-ball creature ink drawing')">
+      <div style="text-align:center;color:var(--ink)">
+        <div style="font-family:'Abril Fatface',serif;font-size:14px;margin-bottom:4px">Eye Being</div>
+        <div style="font-size:9px;letter-spacing:2px;color:var(--muted)">PEN & INK</div>
+      </div>
+      <div class="overlay"><span class="overlay-text">Pen & Ink</span></div>
+    </div>
+
+    <div class="gallery-item" style="background: #f5f0e8; border:1px solid #ddd; padding: 70px 40px; display:flex; align-items:center; justify-content:center;" onclick="alert('View: Dense doodle spread — creatures and symbols')">
+      <div style="text-align:center;color:var(--ink)">
+        <div style="font-family:'Abril Fatface',serif;font-size:14px;margin-bottom:4px">Creature World</div>
+        <div style="font-size:9px;letter-spacing:2px;color:var(--muted)">PEN · DOODLE ART</div>
+      </div>
+      <div class="overlay"><span class="overlay-text">Doodle Art</span></div>
+    </div>
+
+    <div class="gallery-item" style="background: linear-gradient(180deg, #7b68ee 50%, #ff6347 100%); padding: 90px 40px; display:flex; align-items:center; justify-content:center;" onclick="alert('View: Watercolor flower — purple sky gradient')">
+      <div style="text-align:center;color:var(--paper)">
+        <div style="font-family:'Abril Fatface',serif;font-size:14px;margin-bottom:4px">Sunset Bloom</div>
+        <div style="font-size:9px;letter-spacing:2px;opacity:0.6">WATERCOLOR + PEN</div>
+      </div>
+      <div class="overlay"><span class="overlay-text">Watercolor</span></div>
+    </div>
+
+    <div class="gallery-item" style="background: #f5f0e8; border:1px solid #ddd; padding: 70px 40px; display:flex; align-items:center; justify-content:center;" onclick="alert('View: Warrior with dragon — detailed pen with cherry blossoms')">
+      <div style="text-align:center;color:var(--ink)">
+        <div style="font-family:'Abril Fatface',serif;font-size:14px;margin-bottom:4px">Dragon Warrior</div>
+        <div style="font-size:9px;letter-spacing:2px;color:var(--muted)">PEN · FANTASY ART</div>
+      </div>
+      <div class="overlay"><span class="overlay-text">Pen Art</span></div>
+    </div>
+  </div>
+
+  <div class="reveal" style="margin-top: 40px; border: 1px solid var(--ink); padding: 28px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:20px;">
+    <div>
+      <div style="font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:6px">Mediums</div>
+      <div style="font-family:'Playfair Display',serif;font-size:18px">Pen · Pencil · Digital · Watercolor</div>
+    </div>
+    <div>
+      <div style="font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:6px">Works Shown</div>
+      <div style="font-family:'Abril Fatface',serif;font-size:40px;color:var(--rust)">12+</div>
+    </div>
+    <div>
+      <div style="font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:6px">Style</div>
+      <div style="font-family:'Playfair Display',serif;font-size:18px;font-style:italic">Surreal · Detailed · Bold</div>
+    </div>
+  </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section id="experience" style="background: var(--paper); padding-top: 0;">
+  <div class="section-header reveal">
+    <span class="section-num">03 /</span>
+    <h2 class="section-title">Experience</h2>
+  </div>
+  <div class="exp-list reveal">
+    <div class="exp-item">
+      <div class="exp-num">01</div>
+      <div class="exp-role">Student Coordinator — Kalakriti 2025</div>
+      <div class="exp-where">Jain College · Humanities Dept</div>
+      <div class="exp-desc">Coordinated Kalakriti 2025: Metafiction, an inter-college fest for PUC I & II. Managed registrations, participant logistics, and was the primary student contact. Certificate pending issuance.</div>
+    </div>
+    <div class="exp-item">
+      <div class="exp-num">02</div>
+      <div class="exp-role">Host — Theater & Inter-College Events</div>
+      <div class="exp-where">Jain College</div>
+      <div class="exp-desc">Hosted a theater event and an inter-college event, managing stage presence, audience engagement, and event flow. Gained experience in public speaking and live event coordination.</div>
+    </div>
+    <div class="exp-item">
+      <div class="exp-num">03</div>
+      <div class="exp-role">Organizer — School Sports Day</div>
+      <div class="exp-where">Baldwin Co-Ed Extension High School</div>
+      <div class="exp-desc">Helped plan and execute the annual sports day — coordinating events, managing student volunteers, and ensuring smooth execution on the day.</div>
+    </div>
+    <div class="exp-item">
+      <div class="exp-num">04</div>
+      <div class="exp-role">Organizer — School Farewell</div>
+      <div class="exp-where">Baldwin Co-Ed Extension High School</div>
+      <div class="exp-desc">Part of the student team that organized the farewell ceremony — handled décor coordination, program structure, and on-ground management.</div>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="section-header reveal">
+    <span class="section-num">04 /</span>
+    <h2 class="section-title">Projects</h2>
+  </div>
+
+  <div class="project-card reveal" style="margin-bottom: 2px;">
+    <div>
+      <div class="project-label">Web Development · 2025</div>
+      <div class="project-name">The Story Flow</div>
+      <div class="project-desc">A web app built to help writers write and track their stories. Abhiram's first self-built website — demonstrating an ability to learn and ship independently. Built with HTML, CSS, and JavaScript and hosted on GitHub Pages.</div>
+    </div>
+    <a href="https://abhiarun2007-dotcom.github.io/the-story-flow-/" target="_blank" class="project-link">Visit Site →</a>
+  </div>
+
+  <div class="project-card reveal" style="margin-top: 2px;">
+    <div>
+      <div class="project-label">Event · Nov 2025</div>
+      <div class="project-name">Kalakriti 2025 — Metafiction</div>
+      <div class="project-desc">An inter-college humanities fest presented by Jain College's Humanities Department. Featuring competitions, workshops, and conversations with creators. Abhiram served as student coordinator — a role that required managing communications, on-ground logistics, and representing students publicly.</div>
+    </div>
+    <div style="font-size:10px;letter-spacing:1px;color:var(--muted);white-space:nowrap;text-align:right;">
+      <div style="font-family:'Abril Fatface',serif;font-size:32px;color:var(--rust)">29</div>
+      <div>NOV 2025</div>
+      <div style="margin-top:4px;">Jayanagar, BLR</div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<div class="contact-section" id="contact">
+  <div class="reveal">
+    <p style="font-size:10px;letter-spacing:4px;color:var(--gold);margin-bottom:16px;text-transform:uppercase;">Let's Connect</p>
+    <h2 class="contact-title">Have a project<br>in <em>mind?</em></h2>
+    <p class="contact-sub">ARTIST · ORGANIZER · BUILDER · BENGALURU</p>
+    <div class="contact-links">
+      <a href="mailto:abhiram@example.com" class="contact-btn primary">Send a Message</a>
+      <a href="https://abhiarun2007-dotcom.github.io/the-story-flow-/" target="_blank" class="contact-btn">Visit My Website</a>
+    </div>
+    <p style="margin-top: 50px; font-size:11px; color:rgba(255,255,255,0.2); letter-spacing:1px;">Student Coordinator Contact: 91 90192 82007</p>
+  </div>
+</div>
+
+<footer>
+  © 2025 Abhiram R A — Bengaluru, India &nbsp;·&nbsp; Made with intention
+</footer>
+
+<!-- LIGHTBOX -->
+<div class="lightbox" id="lightbox" onclick="closeLightbox()">
+  <span class="lightbox-close">✕</span>
+  <img id="lightbox-img" src="" alt="">
+</div>
+
+<script>
+  // Scroll reveal
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if(e.isIntersecting) {
+        e.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.1 });
+  reveals.forEach(r => observer.observe(r));
+
+  // Stagger children in exp-list and gallery
+  document.querySelectorAll('.exp-item, .gallery-item, .marks-cell').forEach((el, i) => {
+    el.style.transitionDelay = `${i * 0.05}s`;
+  });
+
+  function openLightbox(el) {
+    const img = el.querySelector('img');
+    if(img && img.src && !img.src.includes('data:')) {
+      document.getElementById('lightbox-img').src = img.src;
+      document.getElementById('lightbox').classList.add('active');
+    }
+  }
+
+  function closeLightbox() {
+    document.getElementById('lightbox').classList.remove('active');
+  }
+
+  document.addEventListener('keydown', e => {
+    if(e.key === 'Escape') closeLightbox();
+  });
+</script>
+</body>
+</html>
